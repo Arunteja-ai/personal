@@ -2,9 +2,11 @@
 
 const initSqlJs = require("sql.js");
 const fs   = require("fs");
+const os   = require("os");
 const path = require("path");
 
-const DB_PATH = path.join(__dirname, "personalmanager.db");
+const DB_PATH = process.env.DB_PATH ||
+  path.join(process.env.VERCEL ? os.tmpdir() : __dirname, "personalmanager.db");
 
 let db      = null;
 let isReady = false;

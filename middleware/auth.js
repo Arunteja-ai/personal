@@ -3,6 +3,7 @@
 // Also provides role-based access control
 
 const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET || "personalmanager_preview_secret_change_me";
 
 // ── Verify JWT ────────────────────────────────────────────────────────────────
 function protect(req, res, next) {
@@ -18,7 +19,7 @@ function protect(req, res, next) {
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded; // { id, name, email, role }
     next();
   } catch (err) {

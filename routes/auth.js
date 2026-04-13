@@ -12,12 +12,13 @@ const { protect }      = require("../middleware/auth");
 const { asyncHandler } = require("../middleware/errorHandler");
 
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET || "personalmanager_preview_secret_change_me";
 
 // ── Helper: generate JWT ──────────────────────────────────────────────────────
 function signToken(user) {
   return jwt.sign(
     { id: user.id, name: user.name, email: user.email, role: user.role },
-    process.env.JWT_SECRET,
+    JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN || "7d" }
   );
 }
