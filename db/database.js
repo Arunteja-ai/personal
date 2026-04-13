@@ -102,7 +102,15 @@ function createSchema() {
 
 async function initDb() {
   if (isReady) return;
-  const SQL = await initSqlJs();
+  const SQL = await initSqlJs({
+    locateFile(file) {
+      try {
+        return require.resolve(`sql.js/dist/${file}`);
+      } catch {
+        return file;
+      }
+    },
+  });
   if (fs.existsSync(DB_PATH)) {
     db = new SQL.Database(fs.readFileSync(DB_PATH));
     console.log("✅  Loaded existing DB");
