@@ -178,7 +178,7 @@
           <li class="item${todo.done ? " is-done" : ""}">
             <div class="item-content">
               <span class="item-title">${escapeHtml(todo.text)}</span>
-              <span class="item-meta">${escapeHtml(todo.category)} · ${escapeHtml(todo.priority)} priority</span>
+              <span class="item-meta">${escapeHtml(todo.category)} | ${escapeHtml(todo.priority)} priority</span>
             </div>
             <div class="item-actions">
               ${todo.done ? '<span class="done-badge">Done</span>' : ""}
@@ -194,7 +194,7 @@
           <li class="item">
             <div class="item-content">
               <span class="item-title">${escapeHtml(meal.name)}</span>
-              <span class="item-meta">${escapeHtml(meal.meal_type)} · ${escapeHtml(meal.meal_time)} · ${escapeHtml(String(meal.calories))} cal</span>
+              <span class="item-meta">${escapeHtml(meal.meal_type)} | ${escapeHtml(meal.meal_time)} | ${escapeHtml(String(meal.calories))} cal</span>
             </div>
             <div class="item-actions">
               <button class="tiny-button" type="button" data-action="delete-meal" data-id="${meal.id}">Delete</button>
@@ -209,7 +209,7 @@
             <div class="item-content">
               <span class="item-title">${escapeHtml(goal.title)}</span>
               <span class="item-copy">${escapeHtml(goal.description || "No description added yet.")}</span>
-              <span class="item-meta">${escapeHtml(goal.goal_type)} term · ${escapeHtml(goal.priority)} priority · Due ${escapeHtml(goal.deadline)}</span>
+              <span class="item-meta">${escapeHtml(goal.goal_type)} term | ${escapeHtml(goal.priority)} priority | Due ${escapeHtml(goal.deadline)}</span>
             </div>
             <div class="item-actions">
               <span class="done-badge">${escapeHtml(String(goal.progress))}%</span>
