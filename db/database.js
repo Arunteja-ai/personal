@@ -7,6 +7,7 @@ const path = require("path");
 
 const DB_PATH = process.env.DB_PATH ||
   path.join(process.env.VERCEL ? os.tmpdir() : __dirname, "personalmanager.db");
+const SQL_WASM_PATH = path.join(__dirname, "..", "node_modules", "sql.js", "dist", "sql-wasm.wasm");
 
 let db      = null;
 let isReady = false;
@@ -102,13 +103,16 @@ function createSchema() {
 
 async function initDb() {
   if (isReady) return;
+  const wasmPath = fs.existsSync(SQL_WASM_PATH)
+    ? SQL_WASM_PATH
+    : require.resolve("sql.js/dist/sql-wasm.wasm");
+
+  // Touch the wasm file directly so Vercel's tracer keeps it in the function bundle.
+  fs.readFileSync(wasmPath);
+
   const SQL = await initSqlJs({
-    locateFile(file) {
-      try {
-        return require.resolve(`sql.js/dist/${file}`);
-      } catch {
-        return file;
-      }
+    locateFile() {
+      return wasmPath;
     },
   });
   if (fs.existsSync(DB_PATH)) {
