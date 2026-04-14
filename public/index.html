@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PersonalManager</title>
+  <meta
+    name="description"
+    content="PersonalManager helps you plan tasks, track meals, and move goals forward from one calm workspace."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark"></span>
+        <span class="brand-text">PersonalManager</span>
+      </a>
+      <nav class="header-links">
+        <a href="#auth">Access</a>
+        <a href="#workspace">Workspace</a>
+        <a href="/api">API</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="launch">
+        <div class="hero-copy">
+          <p class="eyebrow">Live personal command center</p>
+          <h1>One place to plan the day, track meals, and keep goals moving.</h1>
+          <p class="hero-body">
+            This page is connected to your deployed backend. You can create an account, log in,
+            and start using your PersonalManager workspace right here.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#auth">Start Now</a>
+            <a class="secondary-action" href="#workspace">View Workspace</a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="visual-panel visual-panel-a">
+            <span class="visual-label">Planner</span>
+            <strong>Tasks first</strong>
+            <span>Prioritize what matters today</span>
+          </div>
+          <div class="visual-panel visual-panel-b">
+            <span class="visual-label">Nutrition</span>
+            <strong id="heroDate">Today</strong>
+            <span>Track meals as they happen</span>
+          </div>
+          <div class="visual-panel visual-panel-c">
+            <span class="visual-label">Progress</span>
+            <strong>Goal rhythm</strong>
+            <span>Keep short and long plans visible</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="support-strip">
+        <article>
+          <span class="support-kicker">Todo</span>
+          <h2>Capture work fast.</h2>
+          <p>Use categories and priority so the next action is always obvious.</p>
+        </article>
+        <article>
+          <span class="support-kicker">Meals</span>
+          <h2>Watch the daily intake.</h2>
+          <p>Log calories, time, and meal type without switching tools.</p>
+        </article>
+        <article>
+          <span class="support-kicker">Goals</span>
+          <h2>Keep momentum visible.</h2>
+          <p>Create deadlines, see progress, and stay aligned with the bigger plan.</p>
+        </article>
+      </section>
+
+      <section class="auth-section" id="auth">
+        <div class="auth-intro">
+          <p class="eyebrow">Connected frontend</p>
+          <h2>Sign in to open your live workspace.</h2>
+          <p>
+            Login if you already have an account, or register below and the dashboard will load immediately.
+          </p>
+          <div class="auth-toggle" role="tablist" aria-label="Authentication mode">
+            <button class="auth-tab is-active" data-auth-mode="login" type="button">Login</button>
+            <button class="auth-tab" data-auth-mode="register" type="button">Register</button>
+          </div>
+        </div>
+
+        <form class="auth-form" id="authForm">
+          <label class="field" id="nameField">
+            <span>Name</span>
+            <input id="authName" name="name" type="text" placeholder="Charmy Vora">
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input id="authEmail" name="email" type="email" placeholder="you@example.com" required>
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input id="authPassword" name="password" type="password" placeholder="Minimum 6 characters" required>
+          </label>
+          <button class="primary-action auth-submit" id="authSubmit" type="submit">Login</button>
+          <p class="status-text" id="authStatus" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="workspace" id="workspace">
+        <div class="workspace-header">
+          <div>
+            <p class="eyebrow">Workspace</p>
+            <h2 id="workspaceTitle">Open your live dashboard.</h2>
+          </div>
+          <div class="workspace-actions">
+            <button class="secondary-action inline-button" id="refreshButton" type="button">Refresh</button>
+            <button class="secondary-action inline-button" id="logoutButton" type="button">Logout</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-block">
+            <span>Todos</span>
+            <strong id="todoCount">0</strong>
+          </div>
+          <div class="stat-block">
+            <span>Meals today</span>
+            <strong id="mealCount">0</strong>
+          </div>
+          <div class="stat-block">
+            <span>Goals</span>
+            <strong id="goalCount">0</strong>
+          </div>
+        </div>
+
+        <div class="workspace-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <p class="panel-kicker">Todo queue</p>
+              <h3>Add a focused task</h3>
+            </div>
+            <form class="stack-form" id="todoForm">
+              <label class="field">
+                <span>Task</span>
+                <input id="todoText" type="text" placeholder="Submit backend project" required>
+              </label>
+              <div class="inline-fields">
+                <label class="field">
+                  <span>Priority</span>
+                  <select id="todoPriority">
+                    <option value="high">High</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Category</span>
+                  <select id="todoCategory">
+                    <option value="Personal" selected>Personal</option>
+                    <option value="Study">Study</option>
+                    <option value="College">College</option>
+                    <option value="Health">Health</option>
+                    <option value="Work">Work</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </label>
+              </div>
+              <button class="primary-action" type="submit">Save Todo</button>
+            </form>
+            <ul class="item-list" id="todoList"></ul>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <p class="panel-kicker">Meal journal</p>
+              <h3>Log today's meal</h3>
+            </div>
+            <form class="stack-form" id="mealForm">
+              <label class="field">
+                <span>Meal name</span>
+                <input id="mealName" type="text" placeholder="Dal Rice" required>
+              </label>
+              <div class="inline-fields inline-fields-three">
+                <label class="field">
+                  <span>Calories</span>
+                  <input id="mealCalories" type="number" min="1" placeholder="550" required>
+                </label>
+                <label class="field">
+                  <span>Time</span>
+                  <input id="mealTime" type="time" required>
+                </label>
+                <label class="field">
+                  <span>Type</span>
+                  <select id="mealType">
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch" selected>Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                    <option value="Drink">Drink</option>
+                  </select>
+                </label>
+              </div>
+              <button class="primary-action" type="submit">Log Meal</button>
+            </form>
+            <ul class="item-list" id="mealList"></ul>
+          </section>
+
+          <section class="panel panel-wide">
+            <div class="panel-head">
+              <p class="panel-kicker">Goal tracker</p>
+              <h3>Create the next milestone</h3>
+            </div>
+            <form class="stack-form" id="goalForm">
+              <label class="field">
+                <span>Title</span>
+                <input id="goalTitle" type="text" placeholder="Complete full stack project" required>
+              </label>
+              <label class="field">
+                <span>Description</span>
+                <textarea id="goalDescription" rows="3" placeholder="Submit before deadline"></textarea>
+              </label>
+              <div class="inline-fields inline-fields-four">
+                <label class="field">
+                  <span>Progress</span>
+                  <input id="goalProgress" type="number" min="0" max="100" value="0" required>
+                </label>
+                <label class="field">
+                  <span>Deadline</span>
+                  <input id="goalDeadline" type="date" required>
+                </label>
+                <label class="field">
+                  <span>Priority</span>
+                  <select id="goalPriority">
+                    <option value="high">High</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Type</span>
+                  <select id="goalType">
+                    <option value="short" selected>Short</option>
+                    <option value="long">Long</option>
+                  </select>
+                </label>
+              </div>
+              <button class="primary-action" type="submit">Create Goal</button>
+            </form>
+            <ul class="item-list goal-list" id="goalList"></ul>
+          </section>
+        </div>
+
+        <p class="status-text workspace-status" id="workspaceStatus" aria-live="polite"></p>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
